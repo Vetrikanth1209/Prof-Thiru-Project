@@ -15,12 +15,13 @@ import { Formik, Form } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 
+
 import StudentDetails from "./StudentDetails";
 import ParentGuardianInfo from "./ParentGuardianInfo";
 import AddressDetails from "./AddressDetails";
 import EducationalBackground from "./EducationalBackground";
 import CourseSelection from "./CourseSelection";
-import Dashboard from "./Dash";
+import DashboardHeader from "./Navbar";
 
 const steps = [
   "Student Details",
@@ -149,6 +150,8 @@ const initialValues = {
 
 const AdmissionForm = () => {
   const [activeStep, setActiveStep] = useState(0);
+  const navigate = useNavigate();
+  
 
   const handleNext = async (values, actions) => {
     const currentValidationSchema = validationSchemas[activeStep];
@@ -306,7 +309,7 @@ const AdmissionForm = () => {
 
   return (
     <>
-      <Dashboard />
+    <DashboardHeader />
       <Container maxWidth="md" sx={{ mt: 5, mb: 5 }}>
         <Paper elevation={4} sx={{ p: 4, borderRadius: 3 }}>
           <Typography
@@ -370,7 +373,7 @@ const AdmissionForm = () => {
                       variant="contained"
                       color="success"
                       fullWidth
-                      onClick={() => navigator("/table")}
+                      onClick={() => navigate("/table")}
                     >
                       Submit
                     </Button>

@@ -1,0 +1,20 @@
+### Register New User
+POST http://localhost:8000/user/register
+Content-Type: application/json
+
+{
+  "full_name": "dharun",
+  "email": "dharun@gmail.com",
+  "password": "0000",
+  "admin": false
+}
+
+
+### Login User
+POST http://localhost:8000/user/login
+Content-Type: application/json
+
+{
+  "email": "vetree@gmail.com",
+  "password": "0000"
+}

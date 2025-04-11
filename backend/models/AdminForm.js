@@ -6,7 +6,6 @@ const studentSchema = new mongoose.Schema({
     admissionNo: { type: String, default: uuidv4 },
     dateOfAdmission: { type: String },
     rollNumber: { type: String },
-
     student_id: { type: String }, // 🎯 Auto UUID
     name: { type: String },
     contactNo: { type: String, },

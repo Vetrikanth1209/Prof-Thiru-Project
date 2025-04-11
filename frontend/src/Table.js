@@ -10,12 +10,19 @@ import {
 } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import DashboardHeader from './Navbar';
+import { useNavigate } from 'react-router-dom';
+
 
 const StudentsPage = () => {
   const [students, setStudents] = useState([]);
-  const [page, setPage] = useState(1); // start from page 1
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [rowCount, setRowCount] = useState(0); // total number of students
+  const [rowCount, setRowCount] = useState(0);
+  const navigate = useNavigate();
+
+
+  const loggedData = JSON.parse(sessionStorage.getItem('logged') || '{}');
+  const isAdmin = loggedData.user?.admin === true;
 
   const fetchStudents = async (currentPage) => {
     setLoading(true);
@@ -30,12 +37,15 @@ const StudentsPage = () => {
       const { students, total } = res.data;
 
       const withIds = students.map((student, index) => ({
-        id: (currentPage - 1) * 10 + index + 1,
+        id: (currentPage - 1) * 10 + index + 1, // used by DataGrid
+        student_id: student.student_id, // retained for edit/delete
         ...student,
       }));
+      
 
       setStudents(withIds);
-      setRowCount(total); // backend should send this!
+      setRowCount(total);
+      console.log('Fetched students:', res.data);
     } catch (err) {
       console.error('Error fetching students:', err);
     } finally {
@@ -59,7 +69,27 @@ const StudentsPage = () => {
     }
   };
 
-  const columns = [
+  const handleDelete = async (studentId) => {
+    const confirm = window.confirm("Are you sure you want to delete this student?");
+    if (!confirm) return;
+
+    try {
+      await axios.delete(`http://localhost:8000/admission/delete_student_id/${studentId}`);
+      alert("Student deleted successfully!");
+      fetchStudents(page);
+    } catch (error) {
+      console.error("Delete error:", error);
+      alert("Failed to delete student.");
+    }
+  };
+
+  const handleEdit = (student) => {
+    console.log('Editing student:', student.student_id);
+    navigate(`/edit_student/${student.student_id}`);
+  };
+  
+
+  const baseColumns = [
     { field: 'applicationNo', headerName: 'Application No', width: 150 },
     { field: 'rollNumber', headerName: 'Roll No', width: 130 },
     { field: 'admissionNo', headerName: 'Admission No', width: 150 },
@@ -73,115 +103,138 @@ const StudentsPage = () => {
     { field: 'religion', headerName: 'Religion', width: 100 },
     { field: 'community', headerName: 'Community', width: 130 },
     { field: 'communalCategory', headerName: 'Category', width: 130 },
-
     { field: 'fatherName', headerName: 'Father Name', width: 160 },
     { field: 'fatherContactNo', headerName: 'Father Contact', width: 150 },
     { field: 'fatherOccupation', headerName: 'Father Job', width: 140 },
     { field: 'fatherAadharNo', headerName: 'Father Aadhar', width: 170 },
-
     { field: 'motherName', headerName: 'Mother Name', width: 160 },
     { field: 'motherContactNo', headerName: 'Mother Contact', width: 150 },
     { field: 'motherOccupation', headerName: 'Mother Job', width: 140 },
     { field: 'motherAadharNo', headerName: 'Mother Aadhar', width: 170 },
-
     { field: 'guardianName', headerName: 'Guardian Name', width: 160 },
     { field: 'guardianContactNo', headerName: 'Guardian Contact', width: 150 },
     { field: 'guardianOccupation', headerName: 'Guardian Job', width: 140 },
     { field: 'guardianAadharNo', headerName: 'Guardian Aadhar', width: 170 },
-
     { field: 'permanentAddressLine1', headerName: 'Perm Addr Line 1', width: 180 },
     { field: 'permanentAddressLine2', headerName: 'Perm Addr Line 2', width: 180 },
     { field: 'permanentTaluk', headerName: 'Perm Taluk', width: 140 },
     { field: 'permanentDistrict', headerName: 'Perm District', width: 140 },
     { field: 'permanentState', headerName: 'Perm State', width: 140 },
     { field: 'permanentPinCode', headerName: 'Perm Pin', width: 120 },
-
     { field: 'communicationAddressLine1', headerName: 'Comm Addr Line 1', width: 180 },
     { field: 'communicationAddressLine2', headerName: 'Comm Addr Line 2', width: 180 },
     { field: 'communicationTaluk', headerName: 'Comm Taluk', width: 140 },
     { field: 'communicationDistrict', headerName: 'Comm District', width: 140 },
     { field: 'communicationState', headerName: 'Comm State', width: 140 },
     { field: 'communicationPinCode', headerName: 'Comm Pin', width: 120 },
-
     { field: 'lastSchoolAttended', headerName: 'Last School', width: 160 },
     { field: 'lastClassCompleted', headerName: 'Last Class', width: 130 },
     { field: 'yearOfPassing', headerName: 'Year Passed', width: 120 },
     { field: 'emisNumberOrTC', headerName: 'EMIS / TC No.', width: 150 },
-
     { field: 'courseSelected', headerName: 'Course', width: 140 },
     { field: 'mediumOfInstruction', headerName: 'Medium', width: 130 },
     { field: 'hostelDayScholarOrBus', headerName: 'Hostel/Bus', width: 150 },
     { field: 'extraCurricularActivity', headerName: 'Extra Activity', width: 160 },
-
     { field: 'physicallyChallenged', headerName: 'Physically Challenged', width: 180, type: 'boolean' },
     { field: 'exServiceManChild', headerName: 'Ex-Service Child', width: 160, type: 'boolean' },
     { field: 'belongsToAndamanNicobar', headerName: 'Andaman/Nicobar?', width: 170, type: 'boolean' },
-
     { field: 'dateOfAdmission', headerName: 'Admission Date', width: 150 },
-];
+  ];
 
-  return (
-   <>
-   <DashboardHeader />
-    <Container maxWidth="lg" sx={{ mt: 6, mb: 6 }}>
-      <Paper elevation={4} sx={{ p: 4, borderRadius: 3 }}>
-        <Typography variant="h4" align="center" fontWeight="bold" gutterBottom>
-          🎓 All Student Records
-        </Typography>
-
-        {loading && students.length === 0 ? (
-          <Box mt={4} display="flex" justifyContent="center">
-            <CircularProgress />
-          </Box>
-        ) : (
-          <>
-            <Box mt={4} height={{ xs: 400, md: 600 }}>
-              <DataGrid
-                rows={students}
-                columns={columns}
-                pageSize={10}
-                paginationMode="server"
-                rowCount={rowCount}
-                loading={loading}
-                hideFooter
-                disableSelectionOnClick
-                checkboxSelection
-                sx={{
-                  border: '1px solid #ccc',
-                  borderRadius: 2,
-                  backgroundColor: '#fff',  
-                  '& .MuiDataGrid-columnHeaders': {
-                    backgroundColor: '#f0f0f0',
-                    fontWeight: 'bold',
-                  },
-                }}
-              />
-            </Box>
-
-            <Box display="flex" justifyContent="center" mt={3} gap={2}>
+  const adminColumns = isAdmin
+    ? [
+        ...baseColumns,
+        {
+          field: 'actions',
+          headerName: 'Actions',
+          width: 200,
+          renderCell: (params) => (
+            <>
               <Button
                 variant="outlined"
-                onClick={handlePrevious}
-                disabled={page === 1 || loading}
+                color="primary"
+                size="small"
+                sx={{ mr: 1 }}
+                onClick={() => handleEdit(params.row)} 
               >
-                Previous
+                Edit
               </Button>
-              <Typography variant="body1" align="center" mt={1}>
-                Page {page}
-              </Typography>
               <Button
-                variant="contained"
-                onClick={handleNext}
-                disabled={page * 10 >= rowCount || loading}
+                variant="outlined"
+                color="error"
+                size="small"
+                onClick={() => handleDelete(params.row.student_id)}
               >
-                Next
+                Delete
               </Button>
+            </>
+          ),
+        },
+      ]
+    : baseColumns;
+
+  return (
+    <>
+      <DashboardHeader />
+      <Container maxWidth="lg" sx={{ mt: 6, mb: 6 }}>
+        <Paper elevation={4} sx={{ p: 4, borderRadius: 3 }}>
+          <Typography variant="h4" align="center" fontWeight="bold" gutterBottom>
+            🎓 All Student Records
+          </Typography>
+
+          {loading && students.length === 0 ? (
+            <Box mt={4} display="flex" justifyContent="center">
+              <CircularProgress />
             </Box>
-          </>
-        )}
-      </Paper>
-    </Container>
-   </>
+          ) : (
+            <>
+              <Box mt={4} height={{ xs: 400, md: 600 }}>
+                <DataGrid
+                  rows={students}
+                  columns={adminColumns}
+                  pageSize={10}
+                  paginationMode="server"
+                  rowCount={rowCount}
+                  loading={loading}
+                  hideFooter
+                  disableSelectionOnClick
+                  checkboxSelection
+                  sx={{
+                    border: '1px solid #ccc',
+                    borderRadius: 2,
+                    backgroundColor: '#fff',
+                    '& .MuiDataGrid-columnHeaders': {
+                      backgroundColor: '#f0f0f0',
+                      fontWeight: 'bold',
+                    },
+                  }}
+                />
+              </Box>
+
+              <Box display="flex" justifyContent="center" mt={3} gap={2}>
+                <Button
+                  variant="outlined"
+                  onClick={handlePrevious}
+                  disabled={page === 1 || loading}
+                >
+                  Previous
+                </Button>
+                <Typography variant="body1" align="center" mt={1}>
+                  Page {page}
+                </Typography>
+                <Button
+                  variant="contained"
+                  onClick={handleNext}
+                  disabled={page * 10 >= rowCount || loading}
+                >
+                  Next
+                </Button>
+              </Box>
+            </>
+          )}
+        </Paper>
+      </Container>
+    </>
   );
 };
 

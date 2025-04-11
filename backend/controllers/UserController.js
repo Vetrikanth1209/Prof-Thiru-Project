@@ -28,7 +28,8 @@ router.post('/login', async (req, res) => {
             {
                 userId: user._id,
                 email: user.email,
-                full_name: user.full_name || ''  // Optional chaining in case full_name is not defined
+                full_name: user.full_name || '' ,
+                admin :user.admin // Optional chaining in case full_name is not defined
             },
             process.env.JWT_SECRET,
             { expiresIn: '10h' }
@@ -41,7 +42,8 @@ router.post('/login', async (req, res) => {
             user: {
                 user_id: user._id,
                 email: user.email,
-                full_name: user.full_name || ''
+                full_name: user.full_name || '',
+                admin: user.admin // Optional chaining in case full_name is not defined
             }
         });
     } catch (error) {
@@ -49,5 +51,32 @@ router.post('/login', async (req, res) => {
         res.status(500).json({ error: 'Server error. Please try again later.' });
     }
 });
+
+router.post('/register', async (req, res) => {
+    const { full_name, email, password, admin } = req.body;
+
+    try {
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ msg: 'User already exists' });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({
+            full_name,
+            email,
+            password: hashedPassword,
+            admin: admin || false
+        });
+
+        await newUser.save();
+
+        res.status(201).json({ msg: 'User registered successfully', user: newUser });
+    } catch (error) {
+        console.error('Registration Error:', error);
+        res.status(500).json({ error: 'Server error. Please try again later.' });
+    }
+});
+
 
 module.exports = router;

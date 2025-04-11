@@ -44,8 +44,7 @@ export default function EnhancedSignIn() {
       console.log(response);
       console.log(response.data);
       if (response && response.data) {
-        sessionStorage.setItem("true", JSON.stringify(response.data));
-        window.location.assign("/dashboard");
+        sessionStorage.setItem("logged", JSON.stringify(response.data));
       }
     } catch (error) {
       console.error("Login error:", error);

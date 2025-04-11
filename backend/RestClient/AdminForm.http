@@ -61,11 +61,11 @@ Content-Type: application/json
 
 
 ###
-  GET http://localhost:8000/admission/get_all_student
+GET http://localhost:8000/admission/get_all_student
 
 
 ###
-GET http://localhost:8000/admission/get_student_by_id/3c7b0663-3a3b-4df9-9858-6efc0fd53e9c
+GET http://localhost:8000/admission/get_student_by_id/STU-1744386938350
 
 
 ###
