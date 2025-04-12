@@ -21,6 +21,7 @@ const App = () => {
             <>
               <Route path="/" element={<StudentDetails />} />
               <Route path="/edit_student/:student_id" element={<EditStudent />} />
+              <Route path="/admission" element={<AdmissionForm />} />
             </>
           ) : (
             // Normal user routes

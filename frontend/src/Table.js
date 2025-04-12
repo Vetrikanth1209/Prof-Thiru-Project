@@ -12,14 +12,12 @@ import { DataGrid } from '@mui/x-data-grid';
 import DashboardHeader from './Navbar';
 import { useNavigate } from 'react-router-dom';
 
-
 const StudentsPage = () => {
   const [students, setStudents] = useState([]);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [rowCount, setRowCount] = useState(0);
   const navigate = useNavigate();
-
 
   const loggedData = JSON.parse(sessionStorage.getItem('logged') || '{}');
   const isAdmin = loggedData.user?.admin === true;
@@ -41,7 +39,6 @@ const StudentsPage = () => {
         student_id: student.student_id, // retained for edit/delete
         ...student,
       }));
-      
 
       setStudents(withIds);
       setRowCount(total);
@@ -87,7 +84,6 @@ const StudentsPage = () => {
     console.log('Editing student:', student.student_id);
     navigate(`/edit_student/${student.student_id}`);
   };
-  
 
   const baseColumns = [
     { field: 'applicationNo', headerName: 'Application No', width: 150 },
@@ -177,18 +173,18 @@ const StudentsPage = () => {
     <>
       <DashboardHeader />
       <Container maxWidth="lg" sx={{ mt: 6, mb: 6 }}>
-        <Paper elevation={4} sx={{ p: 4, borderRadius: 3 }}>
-          <Typography variant="h4" align="center" fontWeight="bold" gutterBottom>
-            🎓 All Student Records
+        <Paper elevation={6} sx={{ p: 4, borderRadius: 3, boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)' }}>
+          <Typography variant="h4" align="center" fontWeight="bold" gutterBottom color="primary">
+            w All Student Records
           </Typography>
 
           {loading && students.length === 0 ? (
             <Box mt={4} display="flex" justifyContent="center">
-              <CircularProgress />
+              <CircularProgress size={50} color="secondary" />
             </Box>
           ) : (
             <>
-              <Box mt={4} height={{ xs: 400, md: 600 }}>
+              <Box mt={4} height={{ xs: 400, md: 600 }} sx={{ backgroundColor: '#f9f9f9', borderRadius: 2 }}>
                 <DataGrid
                   rows={students}
                   columns={adminColumns}
@@ -200,12 +196,20 @@ const StudentsPage = () => {
                   disableSelectionOnClick
                   checkboxSelection
                   sx={{
-                    border: '1px solid #ccc',
+                    border: 'none',
                     borderRadius: 2,
-                    backgroundColor: '#fff',
                     '& .MuiDataGrid-columnHeaders': {
-                      backgroundColor: '#f0f0f0',
+                      backgroundColor: '#e0e0e0',
                       fontWeight: 'bold',
+                      color: '#333',
+                    },
+                    '& .MuiDataGrid-cell': {
+                      fontSize: '14px',
+                      color: '#444',
+                    },
+                    '& .MuiButton-root': {
+                      textTransform: 'none',
+                      borderRadius: 2,
                     },
                   }}
                 />
@@ -216,16 +220,18 @@ const StudentsPage = () => {
                   variant="outlined"
                   onClick={handlePrevious}
                   disabled={page === 1 || loading}
+                  sx={{ padding: '6px 16px' }}
                 >
                   Previous
                 </Button>
-                <Typography variant="body1" align="center" mt={1}>
+                <Typography variant="body1" align="center" mt={1} fontWeight="bold">
                   Page {page}
                 </Typography>
                 <Button
                   variant="contained"
                   onClick={handleNext}
                   disabled={page * 10 >= rowCount || loading}
+                  sx={{ padding: '6px 16px' }}
                 >
                   Next
                 </Button>

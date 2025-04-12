@@ -45,6 +45,7 @@ export default function EnhancedSignIn() {
       console.log(response.data);
       if (response && response.data) {
         sessionStorage.setItem("logged", JSON.stringify(response.data));
+        window.location.href = "/"; // Redirect to the home page after successful login
       }
     } catch (error) {
       console.error("Login error:", error);
