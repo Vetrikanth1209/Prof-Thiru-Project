@@ -121,4 +121,3 @@ Content-Type: application/json
 }
 ###
 DELETE http://localhost:8000/admission/delete_student_id/STU-1744350699374
-
