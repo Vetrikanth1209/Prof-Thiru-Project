@@ -1,0 +1,38 @@
+### Create course
+POST http://localhost:8000/courses/create_course
+Content-Type: application/json
+
+{
+  "academicYear": "2024-2025",
+  "courseCode": "CS101",
+  "courseName": "Computer Science"
+}
+
+### Get all courses
+GET http://localhost:8000/courses/get_all_courses
+
+##########################
+GET http://localhost:8000/courses/get_all_academic_years
+
+##########################
+GET http://localhost:8000/courses/get_all_course_names
+
+##########################
+GET http://localhost:8000/courses/get_all_course_codes
+
+
+
+### Update course
+PUT http://localhost:8000/courses/update_course
+Content-Type: application/json
+
+{
+  "courseId": "CS101",
+  "academicYear": "2024-2025",
+  "courseCode": "CS101",
+  "courseName": "Computer Science Updated",
+  "isActive": true
+}
+
+### Delete course
+DELETE http://localhost:8000/courses/delete_course/CS101

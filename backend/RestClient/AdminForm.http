@@ -1,0 +1,124 @@
+POST http://localhost:8000/admission/create_new_student
+Content-Type: application/json
+
+{
+  "dateOfAdmission": "2024-06-01",
+  "rollNumber": "ROLL789",
+  "name": "Selva",
+  "contactNo": "9876543210",
+  "gender": "Male",
+  "nationality": "Indian",
+  "aadharNo": "629629568991",
+  "dateOfBirth": "2003-05-10",
+  "caste": "MBC",
+  "religion": "Hindu",
+  "community": "Vellalar",
+  "communalCategory": "MBC",
+
+  "fatherName": "Mr. Appa",
+  "fatherContactNo": "9999999999",
+  "fatherOccupation": "Farmer",
+  "fatherAadharNo": "111122223333",
+
+  "motherName": "Mrs. Amma",
+  "motherContactNo": "8888888888",
+  "motherOccupation": "Homemaker",
+  "motherAadharNo": "444455556666",
+
+  "guardianName": null,
+  "guardianContactNo": null,
+  "guardianOccupation": null,
+  "guardianAadharNo": null,
+
+  "permanentAddressLine1": "1st Street",
+  "permanentAddressLine2": "Vasavi Nagar",
+  "permanentTaluk": "Rasipuram",
+  "permanentDistrict": "Namakkal",
+  "permanentState": "Tamil Nadu",
+  "permanentPinCode": "637408",
+
+  "communicationAddressLine1": "1st Street",
+  "communicationAddressLine2": "Vasavi Nagar",
+  "communicationTaluk": "Rasipuram",
+  "communicationDistrict": "Namakkal",
+  "communicationState": "Tamil Nadu",
+  "communicationPinCode": "637408",
+
+  "lastSchoolAttended": "Vasavi Vidhyalaya",
+  "lastClassCompleted": "12th",
+  "yearOfPassing": "2021",
+  "emisNumberOrTC": "EMIS123456",
+
+  "courseSelected": "B.E CSE",
+  "mediumOfInstruction": "English",
+  "hostelDayScholarOrBus": "College Bus",
+  "extraCurricularActivity": "Basketball",
+
+  "physicallyChallenged": false,
+  "exServiceManChild": false,
+  "belongsToAndamanNicobar": false
+}
+
+
+###
+GET http://localhost:8000/admission/get_all_student
+
+
+###
+GET http://localhost:8000/admission/get_student_by_id/STU-1744386938350
+
+
+###
+PUT http://localhost:8000/admission/update_student_by_id/STU-1744350699374
+Content-Type: application/json
+
+{
+  "name": "Mafia Boss",
+  "contactNo": "9999988888",
+  "gender": "Male",
+  "nationality": "Indian",
+  "aadharNo": "123456789012",
+  "dateOfBirth": "2003-05-10",
+  "caste": "BC",
+  "religion": "Hindu",
+  "community": "Vellalar",
+  "communalCategory": "BC",
+  "fatherName": "Don Appa",
+  "fatherContactNo": "9999999999",
+  "fatherOccupation": "Kingpin",
+  "fatherAadharNo": "111122223333",
+  "motherName": "Queen Amma",
+  "motherContactNo": "8888888888",
+  "motherOccupation": "Bosslady",
+  "motherAadharNo": "444455556666",
+  "guardianName": null,
+  "guardianContactNo": null,
+  "guardianOccupation": null,
+  "guardianAadharNo": null,
+  "permanentAddressLine1": "Street X",
+  "permanentAddressLine2": "Hood Y",
+  "permanentTaluk": "Some Taluk",
+  "permanentDistrict": "Some District",
+  "permanentState": "Tamil Nadu",
+  "permanentPinCode": "600000",
+  "communicationAddressLine1": "Street X",
+  "communicationAddressLine2": "Hood Y",
+  "communicationTaluk": "Some Taluk",
+  "communicationDistrict": "Some District",
+  "communicationState": "Tamil Nadu",
+  "communicationPinCode": "600000",
+  "lastSchoolAttended": "Don High",
+  "lastClassCompleted": "12th",
+  "yearOfPassing": "2022",
+  "emisNumberOrTC": "EMIS654321",
+  "courseSelected": "B.Tech MafiaOps",
+  "mediumOfInstruction": "English",
+  "hostelDayScholarOrBus": "Day Scholar",
+  "extraCurricularActivity": "Debate Gang Wars",
+  "physicallyChallenged": false,
+  "exServiceManChild": false,
+  "belongsToAndamanNicobar": false
+}
+###
+DELETE http://localhost:8000/admission/delete_student_id/STU-1744350699374
+

@@ -1,0 +1,45 @@
+### Create new bill
+POST http://localhost:8000/bills/create_new_bill
+Content-Type: application/json
+
+{
+  "academicYear": "2024-2025",
+  "department": "Computer Science",
+  "name": "dharun",
+  "rollNo": "12q1",
+  "feesDetails": {
+    "oldFees": 50000,
+    "newFees": 55000
+  },
+  "discount": 5000,
+  "fine": 200
+}
+
+
+### Get all bills (paginated)
+GET http://localhost:8000/bills/get_all_bills
+
+### Get bill by ID
+GET http://localhost:8000/bills/get_bill_by_id/BILL123
+
+### Update bill by ID
+PUT http://localhost:8000/bills/update_bill
+Content-Type: application/json
+
+{
+  "billId": "BILL123",
+  "academicYear": "2024-2025",
+  "dept": "Computer Science",
+  "name": "dharun",
+  "rollNo": "CS101",
+  "feesDetails": {
+    "oldFees": 50000,
+    "newFees": 55000
+  },
+  "discount": 5000,
+  "fine": 200
+}
+
+
+### Delete bill by ID
+DELETE http://localhost:8000/bills/delete_bill_by_id/BILL123

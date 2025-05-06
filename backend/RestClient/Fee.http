@@ -1,0 +1,65 @@
+POST http://localhost:8000/fees/create_fee
+Content-Type: application/json
+
+{
+  "academicYear": "2024-2025",
+  "courseCode": "CS101",
+  "feeType": "Semester",
+  "category": "General",
+  "tuitionFees1": 10000,
+  "tuitionFees2": 8000,
+  "examFees": 1500,
+  "notebookFees": 800,
+  "uniformFees": 1200,
+  "miscellaneousFees": 600,
+  "otherFees": 300,
+  "dueDate": "2025-06-01"
+}
+
+##########################
+
+GET http://localhost:8000/fees/get_all_fees
+
+###########################
+
+GET http://localhost:8000/fees/get_fee/20a8f7f4-b106-46d5-bc45-2006e5e63814
+
+
+###########################
+
+POST http://localhost:8000/fees/get_fees_by_criteria
+Content-Type: application/json
+Accept: application/json
+
+{
+  "academicYear": "2024-2025",
+  "courseCode": "CS101",
+  "category": "General"
+}
+
+
+######################
+
+PUT http://localhost:8000/fees/update_fee
+Content-Type: application/json
+
+{
+  "feeId": "REPLACE_WITH_ACTUAL_FEE_ID",
+  "academicYear": "2024-2025",
+  "courseCode": "CS101",
+  "feeType": "Semester",
+  "category": "General",
+  "tuitionFees1": 11000,
+  "tuitionFees2": 5500,
+  "examFees": 1600,
+  "notebookFees": 900,
+  "uniformFees": 1300,
+  "miscellaneousFees": 700,
+  "otherFees": 400,
+  "dueDate": "2025-06-15",
+  "isActive": true
+}
+
+###########################
+
+DELETE http://localhost:5000/delete_fee/REPLACE_WITH_ACTUAL_FEE_ID
